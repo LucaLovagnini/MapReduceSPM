@@ -1,0 +1,10 @@
+#!/bin/bash
+workers=4
+times=5
+for i in `seq 4 $workers`
+do
+	for j in `seq 1 $times`
+	do
+		./mapreduce foo.txt $i
+	done
+done
