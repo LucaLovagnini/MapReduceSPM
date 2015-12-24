@@ -16,12 +16,12 @@ using namespace std;
  */
 class InputFormat {
 public:
-	InputFormat(string file_name, int nWorkers) : file_name(file_name), nWorkers(nWorkers){}
+	InputFormat(const string& file_name, unsigned const short nWorkers) : nWorkers(nWorkers), file_name(file_name) {}
 	virtual pair<off_t,off_t>* getSplits() = 0;
 	virtual ~InputFormat(){}
 public:
-	string file_name;
-	int nWorkers;
+	const string& file_name;
+	const unsigned short nWorkers;
 };
 
 #endif /* INPUTFORMAT_HPP_ */

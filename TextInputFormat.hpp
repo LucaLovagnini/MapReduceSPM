@@ -19,7 +19,7 @@ using namespace std;
 
 class TextInputFormat : public InputFormat {
 public:
-	TextInputFormat(string file_name, int nWorkers) : InputFormat(file_name,nWorkers){}
+	TextInputFormat(const string& file_name, unsigned const short nWorkers) : InputFormat(file_name,nWorkers){}
 	pair<off_t,off_t>* getSplits() {
 		struct stat st;
 		off_t size;

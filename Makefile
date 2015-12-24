@@ -70,7 +70,7 @@ test:
 	ssh $(USR)@$(ACC) ./$(TEST)
 
 .cpp.o:
-	$(CXX) $(CFLAGS) $(INCLUDES) -c $<  -o $@
+	$(CXX) $(CFLAGS) $(INCLUDES) -g -c $<  -o $@
 
 clean:
 	$(RM) *.o *~ $(MAIN)

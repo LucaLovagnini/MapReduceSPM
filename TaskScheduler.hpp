@@ -23,12 +23,13 @@ using namespace ff;
 
 template <typename MIK, typename MIV, typename MOK, typename MOV>
 struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> {
-	TaskScheduler (ff_loadbalancer *const lb , string file_name, int nWorkers,
+	TaskScheduler (ff_loadbalancer *const lb , const string &file_name, const unsigned short nWorkers,
 			function<void(MIK key, MIV value, MapResult<MIK,MIV,MOK,MOV>*)> map_func)
-		:lb(lb),file_name(file_name),nWorkers(nWorkers),map_func(map_func){
+		:lb(lb),nWorkers(nWorkers),map_func(map_func){
 			input_format = new TextInputFormat(file_name, nWorkers);
 			record_reader = new LineRecordReader(file_name);
 		}
+
 	void setRecordReader (RecordReader<MIK,MIV> *record_reader) {
 		this->record_reader = record_reader;
 	}
@@ -54,9 +55,9 @@ struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> 
 	}
 
 private:
-    unsigned int nWorkers, completedMap=0, completedReduce=0, onGoingInter=0;
-    string file_name;
-    ff_loadbalancer *lb;
+    unsigned const short nWorkers;
+    unsigned short completedMap=0, completedReduce=0, onGoingInter=0;
+    ff_loadbalancer *const lb;
     InputFormat *input_format;
     function<void(MIK key, MIV value, MapResult<MIK,MIV,MOK,MOV>*)> map_func;
     RecordReader<MIK,MIV> *record_reader;
