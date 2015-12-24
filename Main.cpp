@@ -6,9 +6,18 @@
 #include <stdlib.h>
 #include <time.h>
 
+
+#include <boost/utility/string_ref.hpp>
 #include "MapReduceJob.hpp"
 
+using namespace boost;
 using namespace ff;
+
+size_t getFilesize(const char* filename) {
+    struct stat st;
+    stat(filename, &st);
+    return st.st_size;
+}
 
 int main(int argc, char* argv[]) {
 	int nWorkers = ff_realNumCores()-1;//-1 because one is TaskScheduler

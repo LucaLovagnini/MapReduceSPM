@@ -4,8 +4,8 @@
  *  Created on: Dec 11, 2015
  *      Author: luca
  */
-#include "RecordReader.hpp"
 
+#include "RecordReader.hpp"
 using namespace std;
 
 #ifndef LINERECORDREADER_HPP_
@@ -19,12 +19,12 @@ public:
 	string getCurrentValue() { return value; }
 	void getNextKeyValue() {
 		key = pos;//value is the actual file offset
-		ifs.seekg(pos,ios::beg);
 		morePairs = getline(ifs,value);//save line as value. no more pairs if EOF...
 		if(value.size()+pos>end) {
 			morePairs= false;
 			value = value.substr(0,end-pos+1);
 		}
+		//cout<<"key="<<key<<" value="<<value<<endl;
 		pos += value.size()+1;
 		morePairs = morePairs && pos <= end;//...or if we have reached the split's end
 	}
@@ -32,6 +32,7 @@ public:
 		return new LineRecordReader(file_name);
 	}
 private:
+	long msec=0;
 	off_t key=-1;
 	string value;
 };

@@ -7,7 +7,7 @@
 
 #Fastflow and Boost paths
 FF_ROOT		= ../../fastflow
-BOOST_ROOT 	= ../../boost_1_59_0
+BOOST_ROOT 	= ../../boost_1_60_0
 
 #Xeon's user
 USR = spm1428
