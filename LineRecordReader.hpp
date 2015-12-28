@@ -13,8 +13,7 @@ using namespace std;
 
 class  LineRecordReader : public RecordReader<int,string>{
 public:
-	LineRecordReader(string file_name) : RecordReader(file_name){
-	}
+	LineRecordReader(const string &file_name) : RecordReader(file_name){}
 	int getCurrentKey() { return key; }
 	string getCurrentValue() { return value; }
 	void getNextKeyValue() {
@@ -24,7 +23,6 @@ public:
 			morePairs= false;
 			value = value.substr(0,end-pos+1);
 		}
-		//cout<<"key="<<key<<" value="<<value<<endl;
 		pos += value.size()+1;
 		morePairs = morePairs && pos <= end;//...or if we have reached the split's end
 	}
@@ -32,8 +30,7 @@ public:
 		return new LineRecordReader(file_name);
 	}
 private:
-	long msec=0;
-	off_t key=-1;
+	off_t key = -1;
 	string value;
 };
 

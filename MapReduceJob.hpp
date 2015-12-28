@@ -52,8 +52,6 @@ public:
 		if (farm->run_and_wait_end()<0) error("running myFarm");
 	    Time t2(boost::posix_time::microsec_clock::local_time());
 	    TimeDuration dt = t2 - t1;
-	    //print formatted date
-	    cout << dt << std::endl;
 	    //number of elapsed miliseconds
 	    long msec = dt.total_milliseconds();
 	    //print elapsed seconds (with millisecond precision)

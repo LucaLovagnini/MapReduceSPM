@@ -37,7 +37,7 @@ CFLAGS =
 INCLUDES = -I$(FF_ROOT)  -I$(BOOST_ROOT)
 
 # define any libraries to link into executable:
-LIBS = -pthread
+LIBS = -pthread -pg
 
 #optimization flags
 OPTFLAGS = -O3 -finline-functions -DNDEBUG -g -O0

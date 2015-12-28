@@ -5,10 +5,11 @@
  *      Author: luca
  */
 
-#include <ff/pipeline.hpp>
+#include <ff/farm.hpp>
 #include <map>
 
 using namespace std;
+using namespace ff;
 
 #ifndef MAPREDUCEWORKER_HPP_
 #define MAPREDUCEWORKER_HPP_

@@ -15,6 +15,7 @@
 #include "MapResult.hpp"
 #include "MapTask.hpp"
 #include "TextInputFormat.hpp"
+#include "TextSplitRecordReader.hpp"
 
 using namespace ff;
 
@@ -27,7 +28,7 @@ struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> 
 			function<void(MIK key, MIV value, MapResult<MIK,MIV,MOK,MOV>*)> map_func)
 		:lb(lb),nWorkers(nWorkers),map_func(map_func){
 			input_format = new TextInputFormat(file_name, nWorkers);
-			record_reader = new LineRecordReader(file_name);
+			record_reader = new TextSplitRecordReader(file_name);
 		}
 
 	void setRecordReader (RecordReader<MIK,MIV> *record_reader) {

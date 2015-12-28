@@ -19,10 +19,9 @@ using namespace std;
 template <typename MIK,typename MIV>
 class RecordReader{
 public:
-	RecordReader(string file_name) : file_name(file_name){
+	RecordReader(const string &file_name){
 		ifs.open(file_name);
-		if(!ifs.is_open())
-			throw ios_base::failure("File "+file_name+" doesn't exists");
+		this->file_name = file_name;
 	}
 	void initialize (pair<off_t,off_t> split) {
 		pos = split.first;
@@ -38,8 +37,8 @@ public:
 protected:
 	off_t pos=-1, end=-1;
 	bool morePairs = true;
-	string file_name;
 	ifstream ifs;
+	string file_name;
 };
 
 
