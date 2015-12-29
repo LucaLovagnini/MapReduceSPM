@@ -41,10 +41,10 @@ public:
 		farm = new ff_Farm<> ( [nWorkers]() {
 		  std::vector<std::unique_ptr<ff_node> > Workers;
 			for(int i=0;i<nWorkers;++i)
-				Workers.push_back(std::unique_ptr<ff_node_t<Task<int,string,string,int>,Result<int,string,string,int>> >(new MapReduceWorker<int,string,string,int>()));
+				Workers.push_back(std::unique_ptr<ff_node_t<Task<MIK,MIV,MOK,MOV>,Result<MIK,MIV,MOK,MOV>> >(new MapReduceWorker<MIK,MIV,MOK,MOV>()));
 		  return Workers;
 		}() );
-		TaskScheduler<int,string,string,int> e(farm->getlb(),file_name,nWorkers,map_func);
+		TaskScheduler<MIK,MIV,MOK,MOV> e(farm->getlb(),file_name,nWorkers,map_func);
 		farm->remove_collector(); // removes the default collector
 		farm->add_emitter(e);
 		farm->wrap_around();

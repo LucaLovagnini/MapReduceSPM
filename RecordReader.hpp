@@ -19,14 +19,12 @@ using namespace std;
 template <typename MIK,typename MIV>
 class RecordReader{
 public:
-	RecordReader(const string &file_name){
+	RecordReader(const string &file_name) : file_name(file_name){
 		ifs.open(file_name);
-		this->file_name = file_name;
 	}
 	void initialize (pair<off_t,off_t> split) {
 		pos = split.first;
 		end = split.second;
-		ifs.seekg(pos,ios::beg);
 	}
 	bool isMorePairs(){ return morePairs; }
 	virtual MIK getCurrentKey()=0;

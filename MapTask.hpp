@@ -25,18 +25,18 @@ public:
 	}
 	Result<MIK,MIV,MOK,MOV> *execute (MapReduceWorker<MIK,MIV,MOK,MOV> *worker){
 		MapResult<MIK,MIV,MOK,MOV> *result = new MapResult<MIK,MIV,MOK,MOV>();
-	    Time t1(boost::posix_time::microsec_clock::local_time());
 		while(record_reader->isMorePairs()) {
 			record_reader->getNextKeyValue();
+		    //print elapsed seconds (with millisecond precision)
 			MIK key = record_reader->getCurrentKey();
 			MIV value = record_reader->getCurrentValue();
+		    Time t1(boost::posix_time::microsec_clock::local_time());
 			map_func(key, value, result);
+		    Time t2(boost::posix_time::microsec_clock::local_time());
+		    TimeDuration dt = t2 - t1;
+		    //number of elapsed miliseconds
+		    long msec = dt.total_milliseconds();
 		}
-	    Time t2(boost::posix_time::microsec_clock::local_time());
-	    TimeDuration dt = t2 - t1;
-	    //number of elapsed miliseconds
-	    long msec = dt.total_milliseconds();
-	    //print elapsed seconds (with millisecond precision)
 		return result;
 	}
 private:

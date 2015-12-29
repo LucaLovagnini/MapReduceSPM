@@ -40,16 +40,18 @@ int main(int argc, char* argv[]) {
 	else {
 	}
 	cout<<"fileName="<<fileName<<" nWorkers="<<nWorkers<<endl;
-	std::function<void(int key, string value,MapResult<int,string,string,int> *result)> map_func = [](int key,string value,MapResult<int,string,string,int> *result) {
-	    istringstream iss(value);
-	    vector<string> tokens{istream_iterator<string>{iss},istream_iterator<string>{}};
-	    for(string key : tokens)
-	    	result->emit(key,1);
+	std::function<void(int key, char *value,MapResult<int,char*,char*,int> *result)> map_func = [](int key,char *value,MapResult<int,char*,char*,int> *result) {
+		char * pch;
+		pch = strtok (value," \n");
+		while (pch != NULL){
+			result->emit(pch,1);
+			pch = strtok (NULL, " \n");
+		}
 	};
-	std::function<pair<string,int> (string key, vector<int> list_value)> red_func = [](string key, vector<int> list_value){
-		pair<string,int> result(key,list_value.size());
+	std::function<pair<char*,int> (char* key, vector<int> list_value)> red_func = [](char* key, vector<int> list_value){
+		pair<char*,int> result(key,list_value.size());
 		return result;
 	};
-	MapReduceJob<int,string,string,int,string,int> job (fileName,map_func,red_func,nWorkers);
+	MapReduceJob<int,char*,char*,int,char*,int> job (fileName,map_func,red_func,nWorkers);
 	return 0;
 }
