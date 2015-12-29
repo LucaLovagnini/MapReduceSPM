@@ -35,15 +35,8 @@ public:
 	void getNextKeyValue() {
 		key = pos;//value is the actual file offset
 		value = new char[end-pos+1L];
-	    /*off_t pa_offset = pos & ~(sysconf(_SC_PAGE_SIZE) - 1);
-	    cout<<"pa_offset="<<pa_offset<<endl;
-	    value = (char*) mmap(NULL, end-pos-pa_offset, PROT_READ, MAP_PRIVATE , fd, pa_offset);
-	    if(value==MAP_FAILED)
-	    	throw ios_base::failure("bad mmap");
-	    value += pos-pa_offset;*/
 	    ssize_t result = pread(fd, value, end-pos+1L, pos);
 	    assert(result == ( end-pos+1L ) );
-	    //cout<<"value="<<value<<endl;
 		morePairs = false;
 	}
 	RecordReader<int,char*>* clone(){

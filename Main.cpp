@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <string.h>
+#include <stdio.h>
+
 
 #include <boost/utility/string_ref.hpp>
 #include "MapReduceJob.hpp"
@@ -41,11 +44,12 @@ int main(int argc, char* argv[]) {
 	}
 	cout<<"fileName="<<fileName<<" nWorkers="<<nWorkers<<endl;
 	std::function<void(int key, char *value,MapResult<int,char*,char*,int> *result)> map_func = [](int key,char *value,MapResult<int,char*,char*,int> *result) {
-		char * pch;
-		pch = strtok (value," \n");
-		while (pch != NULL){
-			result->emit(pch,1);
-			pch = strtok (NULL, " \n");
+		const char delimit[]=" \t\r\n\v\f";
+		char *token , *save;
+		token = strtok_r(value, delimit, &save);
+		while (token != NULL){
+			result->emit(token,1);
+			token = strtok_r (NULL,delimit, &save);
 		}
 	};
 	std::function<pair<char*,int> (char* key, vector<int> list_value)> red_func = [](char* key, vector<int> list_value){
