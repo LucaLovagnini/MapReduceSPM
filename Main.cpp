@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
 		pair<char*,int> result(key,list_value.size());
 		return result;
 	};
+
 	MapReduceJob<int,char*,char*,int,char*,int> job (fileName,map_func,red_func,nWorkers);
 	return 0;
 }
