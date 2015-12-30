@@ -8,6 +8,13 @@
 
 #include "MapReduceJob.hpp"
 
+#include "boost/date_time/posix_time/posix_time.hpp"
+
+
+typedef boost::posix_time::ptime Time;
+typedef boost::posix_time::time_duration TimeDuration;
+using namespace boost;
+
 using namespace ff;
 
 size_t getFilesize(const char* filename) {
@@ -40,11 +47,18 @@ int main(int argc, char* argv[]) {
 	std::function<void(int key, char *value,MapResult<int,char*,char*,int> *result)> map_func = [](int key,char *value,MapResult<int,char*,char*,int> *result) {
 		const char delimit[]=" \t\r\n\v\f";
 		char *token , *save;
+	    Time t1(boost::posix_time::microsec_clock::local_time());
+	    //print elapsed seconds (with millisecond precision)
 		token = strtok_r(value, delimit, &save);
 		while (token != NULL){
 			result->emit(token,1);
 			token = strtok_r (NULL,delimit, &save);
 		}
+	    Time t2(boost::posix_time::microsec_clock::local_time());
+	    TimeDuration dt = t2 - t1;
+	    //number of elapsed miliseconds
+	    long msec = dt.total_milliseconds();
+	    cout<<"time="<<msec<<endl;
 	};
 	std::function<pair<char*,int> (char* key, vector<int> list_value)> red_func = [](char* key, vector<int> list_value){
 		pair<char*,int> result(key,list_value.size());
