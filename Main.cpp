@@ -6,14 +6,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <string.h>
-#include <stdio.h>
-
-
-#include <boost/utility/string_ref.hpp>
 #include "MapReduceJob.hpp"
 
-using namespace boost;
 using namespace ff;
 
 size_t getFilesize(const char* filename) {

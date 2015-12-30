@@ -1,10 +1,10 @@
 #!/bin/bash
-workers=64
-times=5
+workers=3
+times=10
 for i in `seq 1 $workers`
 do
 	for j in `seq 1 $times`
 	do
-		./mapreduce foo.txt $i
+		./mapreduce big.txt $i
 	done
 done

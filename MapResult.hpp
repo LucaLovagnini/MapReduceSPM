@@ -6,8 +6,11 @@
  */
 #include <iostream>
 #include <stdlib.h>
+#include <deque>
 
 using namespace std;
+
+#define VECTOR 0
 
 #ifndef MAPRESULT_H_
 #define MAPRESULT_H_
@@ -22,7 +25,7 @@ public:
 		//cout<<"key="<<key<<" value="<<value<<endl;
 		res.push_back(pair<MOK,MOV>(key,value));
 	}
-	vector<pair<MOK,MOV>> res;
+	deque<pair<MOK,MOV>> res;
 };
 
 #endif /* MAPRESULT_H_ */
