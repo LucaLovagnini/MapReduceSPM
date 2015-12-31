@@ -5,6 +5,7 @@ for i in `seq 1 $workers`
 do
 	for j in `seq 1 $times`
 	do
-		./mapreduce big.txt $i
+		sleep 20
+		./mapreduce 2gb.txt $i
 	done
 done
