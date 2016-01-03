@@ -20,6 +20,7 @@ size_t getFilesize(const char* filename) {
 }
 
 int main(int argc, char* argv[]) {
+	std::hash<string> str_hash;
 	int nWorkers = ff_realNumCores()-1;//-1 because one is TaskScheduler
 	string fileName;
 	switch (argc){
@@ -40,25 +41,16 @@ int main(int argc, char* argv[]) {
 	else {
 	}
 	cout<<"fileName="<<fileName<<" nWorkers="<<nWorkers<<endl;
-	std::function<void(int key, char *value,MapResult<int,char*,char*,int> *result)> map_func = [](int key,char *value,MapResult<int,char*,char*,int> *result) {
+	std::function<void(int key, char *value,Context<int,char*,char*,int> *context)> map_func = [](int key,char *value,MapResult<int,char*,char*,int> *context) {
 		const char delimit[]=" \t\r\n\v\f";
 		char *token , *save;
-		#if WORDS == 1
-	    char *pch;
-	    pch = strpbrk (value, " \n");
-	    unsigned int words = 0;
-	    while(pch != NULL){
-	    	words++;
-	    	pch = strpbrk (pch+1, " \n");
-	    }
-	    result->res.reserve(words);
-		#endif
 		token = strtok_r(value, delimit, &save);
 		while (token != NULL){
-			result->emit(token,1);
+			context->emit(token,1);
 			token = strtok_r (NULL,delimit, &save);
 		}
-	};
+	}
+	;
 	std::function<pair<char*,int> (char* key, vector<int> list_value)> red_func = [](char* key, vector<int> list_value){
 		pair<char*,int> result(key,list_value.size());
 		return result;

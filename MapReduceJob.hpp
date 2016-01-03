@@ -35,7 +35,7 @@ template<typename MIK, typename MIV, typename MOK, typename MOV, typename RK, ty
 class MapReduceJob {
 public:
 	MapReduceJob(	string file_name,
-					function<void(MIK key, MIV value, MapResult<MIK,MIV,MOK,MOV>*)> map_func ,
+					function<void(MIK key, MIV value, Context<MIK,MIV,MOK,MOV>*)> map_func ,
 					function<pair<RK,RV> (MOK key, vector<MOV> list_value)> red_func,
 					int nWorkers){
 		farm = new ff_Farm<> ( [nWorkers]() {

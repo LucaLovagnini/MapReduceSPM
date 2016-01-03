@@ -21,7 +21,7 @@ public:
 	    delete this;
 	}
 	void emit(MOK key, MOV value) {
-		//cout<<"key="<<key<<" value="<<value<<endl;
+		cout<<"key="<<key<<" value="<<value<<endl;
 		res.push_back(pair<MOK,MOV>(key,value));
 	}
 	vector<pair<MOK,MOV>> res;

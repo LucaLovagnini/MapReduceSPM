@@ -25,7 +25,7 @@ using namespace ff;
 template <typename MIK, typename MIV, typename MOK, typename MOV>
 struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> {
 	TaskScheduler (ff_loadbalancer *const lb , const string &file_name, const unsigned short nWorkers,
-			function<void(MIK key, MIV value, MapResult<MIK,MIV,MOK,MOV>*)> map_func)
+			function<void(MIK key, MIV value, Context<MIK,MIV,MOK,MOV>*)> map_func)
 		:lb(lb),nWorkers(nWorkers),map_func(map_func){
 			input_format = new TextInputFormat(file_name, nWorkers);
 			record_reader = new TextSplitRecordReader(file_name);
@@ -42,7 +42,7 @@ struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> 
 		if(result==NULL){
 			pair<off_t,off_t> *splits = input_format->getSplits();
 			for(int i=0; i<nWorkers; i++)
-				this->ff_send_out(new MapTask<MIK,MIV,MOK,MOV> (record_reader->clone(),splits[i],map_func));
+				this->ff_send_out(new MapTask<MIK,MIV,MOK,MOV> (record_reader->clone(),splits[i],map_func,nWorkers));
 			return (Task<MIK,MIV,MOK,MOV>*) GO_ON;
 		}
 		result->execute(this);
@@ -60,7 +60,7 @@ private:
     unsigned short completedMap=0, completedReduce=0, onGoingInter=0;
     ff_loadbalancer *const lb;
     InputFormat *input_format;
-    function<void(MIK key, MIV value, MapResult<MIK,MIV,MOK,MOV>*)> map_func;
+    function<void(MIK key, MIV value, Context<MIK,MIV,MOK,MOV>*)> map_func;
     RecordReader<MIK,MIV> *record_reader;
 };
 
