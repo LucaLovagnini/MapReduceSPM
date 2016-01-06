@@ -88,18 +88,18 @@ Main.o: ../../fastflow/ff/platforms/platform.h
 Main.o: ../../fastflow/ff/platforms/liblfds.h /usr/include/assert.h
 Main.o: /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h
 Main.o: /usr/include/wchar.h ../../fastflow/ff/cycle.h /usr/include/time.h
-Main.o: /usr/include/xlocale.h ../../fastflow/ff/utils.hpp
-Main.o: /usr/include/string.h ../../fastflow/ff/spin-lock.hpp
-Main.o: ../../fastflow/ff/sysdep.h ../../fastflow/ff/config.hpp
-Main.o: ../../fastflow/ff/buffer.hpp ../../fastflow/ff/ubuffer.hpp
-Main.o: ../../fastflow/ff/dynqueue.hpp ../../fastflow/ff/mapper.hpp
-Main.o: ../../fastflow/ff/mapping_utils.hpp /usr/include/errno.h
-Main.o: ../../fastflow/ff/barrier.hpp ../../fastflow/ff/ocl/clEnvironment.hpp
-Main.o: ../../fastflow/ff/farm.hpp ../../fastflow/ff/lb.hpp
-Main.o: ../../fastflow/ff/gt.hpp ../../fastflow/ff/multinode.hpp
-Main.o: MapReduceJob.hpp TaskScheduler.hpp InterTask.hpp InterResult.hpp
-Main.o: Result.hpp MapReduceWorker.hpp Task.hpp RecordReader.hpp
-Main.o: LineRecordReader.hpp MapResult.hpp MapTask.hpp Context.hpp
+Main.o: ../../fastflow/ff/utils.hpp /usr/include/string.h
+Main.o: ../../fastflow/ff/spin-lock.hpp ../../fastflow/ff/sysdep.h
+Main.o: ../../fastflow/ff/config.hpp ../../fastflow/ff/buffer.hpp
+Main.o: ../../fastflow/ff/ubuffer.hpp ../../fastflow/ff/dynqueue.hpp
+Main.o: ../../fastflow/ff/mapper.hpp ../../fastflow/ff/mapping_utils.hpp
+Main.o: /usr/include/errno.h ../../fastflow/ff/barrier.hpp
+Main.o: ../../fastflow/ff/ocl/clEnvironment.hpp ../../fastflow/ff/farm.hpp
+Main.o: ../../fastflow/ff/lb.hpp ../../fastflow/ff/gt.hpp
+Main.o: ../../fastflow/ff/multinode.hpp MapReduceJob.hpp TaskScheduler.hpp
+Main.o: InterTask.hpp InterResult.hpp Result.hpp MapReduceWorker.hpp
+Main.o: MapReduceHash.hpp Task.hpp RecordReader.hpp LineRecordReader.hpp
+Main.o: MapResult.hpp MapTask.hpp Context.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/posix_time/posix_time.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/compiler_config.hpp
 Main.o: ../../boost_1_60_0/boost/config.hpp

@@ -7,17 +7,23 @@
 #include <time.h>
 #include <string.h>
 
+#include "MapReduceHash.hpp"
 #include "MapReduceJob.hpp"
 
 #define WORDS 1
 
 using namespace ff;
 
-size_t getFilesize(const char* filename) {
-    struct stat st;
-    stat(filename, &st);
-    return st.st_size;
-}
+template <>
+struct MapReduceHash<char *>
+{
+  std::size_t
+  operator()(const char *const s) const noexcept
+  {
+	  cout<<"Char* hash!"<<endl;
+    return hash_bytes(s, std::strlen(s));
+  }
+};
 
 int main(int argc, char* argv[]) {
 	std::hash<string> str_hash;
@@ -41,7 +47,7 @@ int main(int argc, char* argv[]) {
 	else {
 	}
 	cout<<"fileName="<<fileName<<" nWorkers="<<nWorkers<<endl;
-	std::function<void(int key, char *value,Context<int,char*,char*,int> *context)> map_func = [](int key,char *value,MapResult<int,char*,char*,int> *context) {
+	std::function<void(int key, char *value,Context<int,char*,char*,int> *context)> map_func = [](int key,char *value,Context<int,char*,char*,int> *context) {
 		const char delimit[]=" \t\r\n\v\f";
 		char *token , *save;
 		token = strtok_r(value, delimit, &save);
@@ -49,13 +55,15 @@ int main(int argc, char* argv[]) {
 			context->emit(token,1);
 			token = strtok_r (NULL,delimit, &save);
 		}
-	}
-	;
+	};
 	std::function<pair<char*,int> (char* key, vector<int> list_value)> red_func = [](char* key, vector<int> list_value){
 		pair<char*,int> result(key,list_value.size());
 		return result;
 	};
 
 	MapReduceJob<int,char*,char*,int,char*,int> job (fileName,map_func,red_func,nWorkers);
+	MapReduceHash<char*> hash;
+	job.setHash(hash);
+	job.waitForCompletion();
 	return 0;
 }

@@ -14,7 +14,7 @@
 template <typename MIK, typename MIV, typename MOK, typename MOV>
 struct Task {
 public:
-	virtual Result<MIK,MIV,MOK,MOV> *execute (MapReduceWorker<MIK,MIV,MOK,MOV> *worker) = 0;
+	virtual void execute (MapReduceWorker<MIK,MIV,MOK,MOV> *worker) = 0;
 	virtual ~Task<MIK,MIV,MOK,MOV>(){}
 };
 

@@ -46,19 +46,27 @@ struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> 
 			return (Task<MIK,MIV,MOK,MOV>*) GO_ON;
 		}
 		result->execute(this);
-		if(completedMap==nWorkers)
+		if(completedMap==nWorkers && onGoingInter == 0)
 			return (Task<MIK,MIV,MOK,MOV>*) EOF;
 		return (Task<MIK,MIV,MOK,MOV>*) GO_ON;
 	}
 
-	bool completeMap(){
-		return ++completedMap == nWorkers;
+	void completeMap(){
+		++completedMap;
 	}
 
-private:
+	void newInter(){
+		++onGoingInter;
+	}
+	void completeInter(){
+		--onGoingInter;
+	}
+
     unsigned const short nWorkers;
-    unsigned short completedMap=0, completedReduce=0, onGoingInter=0;
     ff_loadbalancer *const lb;
+
+private:
+    unsigned short completedMap=0, completedReduce=0, onGoingInter=0;
     InputFormat *input_format;
     function<void(MIK key, MIV value, Context<MIK,MIV,MOK,MOV>*)> map_func;
     RecordReader<MIK,MIV> *record_reader;

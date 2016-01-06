@@ -16,13 +16,18 @@
 template <typename MIK, typename MIV, typename MOK, typename MOV>
 class InterValueTask : public Task<MIK,MIV,MOK,MOV> {
 public:
-	InterValueTask (unordered_multimap<MOK,MOV> inter_values) : inter_values(inter_values) {}
-	Result<MIK,MIV,MOK,MOV> *execute(MapReduceWorker<MIK,MIV,MOK,MOV> *worker){
-		merge(worker->inter_values.begin(),worker->inter_values.end(),inter_values.begin(),inter_values.end(),inserter(worker->inter_values,end(worker->inter_values)));
-		return new InterValueResult<MIK,MIV,MOK,MOV>();
+	InterValueTask (vector<pair<MOK,MOV>> *res) : res(res) {}
+	void execute(MapReduceWorker<MIK,MIV,MOK,MOV> *worker){
+		stringstream s;
+		s<<"INTERVALUE TASK WORKER "<<worker->get_my_id()<<endl;
+		for(pair<MOK,MOV> p : *res){
+			s<<"key = "<<p.first<<" value="<<p.second<<endl;
+		}
+		cout<<s.str();
+		worker->ff_send_out(new InterValueResult<MIK,MIV,MOK,MOV>());
 	}
 private:
-	unordered_multimap<MOK,MOV> inter_values;
+	vector<pair<MOK,MOV>> *res;
 };
 
 

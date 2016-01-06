@@ -25,7 +25,7 @@ public:
 		this->record_reader = record_reader;//this is a clone! (look at new MapTask in TaskScheduler.hpp)
 		this->record_reader->initialize(split);
 	}
-	Result<MIK,MIV,MOK,MOV> *execute (MapReduceWorker<MIK,MIV,MOK,MOV> *worker){
+	void execute (MapReduceWorker<MIK,MIV,MOK,MOV> *worker){
 		Context<MIK,MIV,MOK,MOV> *context = new Context<MIK,MIV,MOK,MOV>(worker,nWorkers);
 		while(record_reader->isMorePairs()) {
 			record_reader->getNextKeyValue();
@@ -34,7 +34,7 @@ public:
 			MIV value = record_reader->getCurrentValue();
 			map_func(key, value, context);
 		}
-		return new MapResult<MIK,MIV,MOK,MOV>();
+		context->flush();
 	}
 private:
 	unsigned const short nWorkers;
