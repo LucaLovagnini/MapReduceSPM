@@ -20,7 +20,6 @@ struct MapReduceHash<char *>
   std::size_t
   operator()(const char *const s) const noexcept
   {
-	  cout<<"Char* hash!"<<endl;
     return hash_bytes(s, std::strlen(s));
   }
 };

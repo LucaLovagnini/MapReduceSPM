@@ -19,11 +19,11 @@ public:
 	InterValueTask (vector<pair<MOK,MOV>> *res) : res(res) {}
 	void execute(MapReduceWorker<MIK,MIV,MOK,MOV> *worker){
 		stringstream s;
-		s<<"INTERVALUE TASK WORKER "<<worker->get_my_id()<<endl;
+		/*s<<"INTERVALUE TASK WORKER "<<worker->get_my_id()<<endl;
 		for(pair<MOK,MOV> p : *res){
 			s<<"key = "<<p.first<<" value="<<p.second<<endl;
 		}
-		cout<<s.str();
+		cout<<s.str();*/
 		worker->ff_send_out(new InterValueResult<MIK,MIV,MOK,MOV>());
 	}
 private:

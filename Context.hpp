@@ -26,8 +26,9 @@ public:
 		size_t h = worker->hash->operator()(key) ;
 		const unsigned short red_worker = h % nWorkers;
 		vector<pair<MOK,MOV>> *pairs = inter_values[red_worker];
-		stringstream s;
-		cout<<s.str();
+		/*stringstream s;
+		s<<"key="<<key<<" red_worker="<<red_worker<<endl;
+		cout<<s.str();*/
 		pairs->push_back({key,value});
 		if(pairs->size()>=SIZE){
 			sort(pairs->begin(),pairs->end(),[](pair<MOK,MOV> i,pair<MOK,MOV> j) { return (i.first<j.first); });
