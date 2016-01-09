@@ -8,12 +8,13 @@
 #include <iostream>
 #include <ff/pipeline.hpp> // defines ff_pipeline and ff_Pipe
 
-#include "InterTask.hpp"
 #include "LineRecordReader.hpp"
 #include "MapReduceWorker.hpp"
 #include "MapReduceJob.hpp"
 #include "MapResult.hpp"
+#include "ReduceResult.hpp"
 #include "MapTask.hpp"
+#include "ReduceTask.hpp"
 #include "TextInputFormat.hpp"
 #include "TextSplitRecordReader.hpp"
 
@@ -46,8 +47,12 @@ struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> 
 			return (Task<MIK,MIV,MOK,MOV>*) GO_ON;
 		}
 		result->execute(this);
-		if(completedMap==nWorkers && onGoingInter == 0)
+		if(completedReduce==nWorkers){
 			return (Task<MIK,MIV,MOK,MOV>*) EOF;
+		}
+		else if(completedMap==nWorkers)
+			for(int i=0; i<nWorkers; i++)
+				this->ff_send_out(new ReduceTask<MIK,MIV,MOK,MOV>());
 		return (Task<MIK,MIV,MOK,MOV>*) GO_ON;
 	}
 
@@ -55,18 +60,15 @@ struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> 
 		++completedMap;
 	}
 
-	void newInter(){
-		++onGoingInter;
-	}
-	void completeInter(){
-		--onGoingInter;
+	void completeReduce(){
+		++completedReduce;
 	}
 
     unsigned const short nWorkers;
     ff_loadbalancer *const lb;
 
 private:
-    unsigned short completedMap=0, completedReduce=0, onGoingInter=0;
+    unsigned short completedMap=0, completedReduce=0;
     InputFormat *input_format;
     function<void(MIK key, MIV value, Context<MIK,MIV,MOK,MOV>*)> map_func;
     RecordReader<MIK,MIV> *record_reader;

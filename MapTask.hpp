@@ -35,6 +35,7 @@ public:
 			map_func(key, value, context);
 		}
 		context->flush();
+		worker->ff_send_out(new MapResult<MIK,MIV,MOK,MOV>());
 	}
 private:
 	unsigned const short nWorkers;

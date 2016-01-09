@@ -8,46 +8,58 @@
 #ifndef CONTEXT_HPP_
 #define CONTEXT_HPP_
 
-#define SIZE 128
+#define SIZE 4
 
 #include <array>
 #include "MapReduceWorker.hpp"
+
+
 
 template <typename MIK, typename MIV, typename MOK, typename MOV>
 class Context{
 public:
 	Context(MapReduceWorker<MIK,MIV,MOK,MOV> *worker, const unsigned short nWorkers) : worker(worker),nWorkers(nWorkers){
-		inter_values = new vector<pair<MOK,MOV>>*[nWorkers];
-		for(int i =0;i<nWorkers;i++)
-			inter_values[i] = new_and_reserve();
+		inter_values = new vector<pair<MOK,MOV>>[nWorkers];
 	}
 
 	void emit(MOK key, MOV value) {
 		size_t h = worker->hash->operator()(key) ;
 		const unsigned short red_worker = h % nWorkers;
-		vector<pair<MOK,MOV>> *pairs = inter_values[red_worker];
 		/*stringstream s;
 		s<<"key="<<key<<" red_worker="<<red_worker<<endl;
 		cout<<s.str();*/
-		pairs->push_back({key,value});
-		if(pairs->size()>=SIZE){
-			sort(pairs->begin(),pairs->end());
-			MapResult<MIK,MIV,MOK,MOV> *result = new MapResult<MIK,MIV,MOK,MOV>(red_worker,pairs);
-			worker->ff_send_out(result);
-			inter_values[red_worker] = new_and_reserve();
-		}
+		inter_values[red_worker].push_back({key,value});
+		if(inter_values[red_worker].size()>=SIZE)
+			sort_append_clear(red_worker);
 	}
+
 	void flush(){
-		MapResult<MIK,MIV,MOK,MOV> *result = new MapResult<MIK,MIV,MOK,MOV>(inter_values);
-		worker->ff_send_out(result);
+		for(int i=0;i<nWorkers;i++)
+			if(!inter_values[i].empty())
+				sort_append_clear(i);
+	}
+
+	bool pairCompare(const std::pair<MOK, MOV>& firstElem, const std::pair<MOK, MOV>& secondElem) {
+	  return firstElem.first < secondElem.first;
+	}
+
+	void sort_append_clear(const unsigned short red_worker){
+		stringstream s;
+		sort(inter_values[red_worker].begin(),inter_values[red_worker].end(),[]( const std::pair<MOK,MOV> &left,  const std::pair<MOK,MOV> &right) {
+		    return left.second < right.second;
+		});
+		//worker->all_mtx[red_worker].lock();
+	    if (worker->all_inter_values[red_worker].empty())
+	        worker->all_inter_values[red_worker] = move(inter_values[red_worker]);
+	    else{
+	        worker->all_inter_values[red_worker].reserve(worker->all_inter_values[red_worker].size() + inter_values[red_worker].size());
+	        move(begin(inter_values[red_worker]), end(inter_values[red_worker]), back_inserter(worker->all_inter_values[red_worker]));
+	    }
+		//worker->all_mtx[red_worker].unlock();
+	    inter_values[red_worker].clear();
 	}
 private:
-	vector<pair<MOK,MOV>>* new_and_reserve(){
-		vector<pair<MOK,MOV>> *v = new vector<pair<MOK,MOV>>();
-		v->reserve(SIZE);
-		return v;
-	}
-	vector<pair<MOK,MOV>> **inter_values;
+	vector<pair<MOK,MOV>> *inter_values;
 	MapReduceWorker<MIK,MIV,MOK,MOV> *worker;
 	const unsigned short nWorkers;
 

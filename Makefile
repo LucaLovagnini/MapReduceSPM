@@ -96,10 +96,10 @@ Main.o: ../../fastflow/ff/mapper.hpp ../../fastflow/ff/mapping_utils.hpp
 Main.o: /usr/include/errno.h ../../fastflow/ff/barrier.hpp
 Main.o: ../../fastflow/ff/ocl/clEnvironment.hpp ../../fastflow/ff/farm.hpp
 Main.o: ../../fastflow/ff/lb.hpp ../../fastflow/ff/gt.hpp
-Main.o: ../../fastflow/ff/multinode.hpp MapReduceJob.hpp TaskScheduler.hpp
-Main.o: InterTask.hpp InterResult.hpp Result.hpp MapReduceWorker.hpp
-Main.o: MapReduceHash.hpp Task.hpp RecordReader.hpp LineRecordReader.hpp
-Main.o: MapResult.hpp MapTask.hpp Context.hpp
+Main.o: ../../fastflow/ff/multinode.hpp MapReduceHash.hpp MapReduceJob.hpp
+Main.o: TaskScheduler.hpp LineRecordReader.hpp RecordReader.hpp
+Main.o: MapReduceWorker.hpp MapResult.hpp Result.hpp ReduceResult.hpp
+Main.o: MapTask.hpp Task.hpp Context.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/posix_time/posix_time.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/compiler_config.hpp
 Main.o: ../../boost_1_60_0/boost/config.hpp
@@ -270,12 +270,10 @@ Main.o: ../../boost_1_60_0/boost/date_time/date_formatting_limited.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/iso_format.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/parse_format_base.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/date_format_simple.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/gregorian/gregorian_io.hpp
-Main.o: ../../boost_1_60_0/boost/io/ios_state.hpp
-Main.o: ../../boost_1_60_0/boost/io_fwd.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/date_facet.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/replace.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/config.hpp
+Main.o: ../../boost_1_60_0/boost/date_time/gregorian/greg_facet.hpp
+Main.o: ../../boost_1_60_0/boost/date_time/date_formatting_locales.hpp
+Main.o: ../../boost_1_60_0/boost/date_time/date_names_put.hpp
+Main.o: ../../boost_1_60_0/boost/lexical_cast.hpp
 Main.o: ../../boost_1_60_0/boost/range/iterator_range_core.hpp
 Main.o: ../../boost_1_60_0/boost/iterator/iterator_traits.hpp
 Main.o: ../../boost_1_60_0/boost/detail/iterator.hpp
@@ -471,32 +469,6 @@ Main.o: ../../boost_1_60_0/boost/iterator/iterator_adaptor.hpp
 Main.o: ../../boost_1_60_0/boost/range/rend.hpp
 Main.o: ../../boost_1_60_0/boost/range/algorithm/equal.hpp
 Main.o: ../../boost_1_60_0/boost/range/detail/safe_bool.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/find_format.hpp
-Main.o: ../../boost_1_60_0/boost/range/as_literal.hpp
-Main.o: ../../boost_1_60_0/boost/range/iterator_range.hpp
-Main.o: ../../boost_1_60_0/boost/range/iterator_range_io.hpp
-Main.o: ../../boost_1_60_0/boost/range/detail/str_types.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/concept.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/find_format.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/find_format_store.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/replace_storage.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/sequence_traits.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/yes_no_type.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/sequence.hpp
-Main.o: ../../boost_1_60_0/boost/mpl/logical.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/find_format_all.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/finder.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/constants.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/finder.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/compare.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/formatter.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/formatter.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/util.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/special_values_formatter.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/period_formatter.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/period_parser.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/string_parse_tree.hpp
-Main.o: ../../boost_1_60_0/boost/lexical_cast.hpp
 Main.o: ../../boost_1_60_0/boost/lexical_cast/bad_lexical_cast.hpp
 Main.o: ../../boost_1_60_0/boost/lexical_cast/try_lexical_convert.hpp
 Main.o: ../../boost_1_60_0/boost/lexical_cast/detail/is_character.hpp
@@ -712,6 +684,7 @@ Main.o: ../../boost_1_60_0/boost/mpl/aux_/iter_apply.hpp
 Main.o: ../../boost_1_60_0/boost/mpl/deref.hpp
 Main.o: ../../boost_1_60_0/boost/mpl/aux_/msvc_type.hpp
 Main.o: ../../boost_1_60_0/boost/mpl/iter_fold_if.hpp
+Main.o: ../../boost_1_60_0/boost/mpl/logical.hpp
 Main.o: ../../boost_1_60_0/boost/mpl/pair.hpp
 Main.o: ../../boost_1_60_0/boost/mpl/aux_/iter_fold_if_impl.hpp
 Main.o: ../../boost_1_60_0/boost/mpl/aux_/include_preprocessed.hpp
@@ -780,22 +753,6 @@ Main.o: ../../boost_1_60_0/boost/math/tools/real_cast.hpp
 Main.o: ../../boost_1_60_0/boost/integer.hpp
 Main.o: ../../boost_1_60_0/boost/integer_fwd.hpp
 Main.o: ../../boost_1_60_0/boost/detail/basic_pointerbuf.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/case_conv.hpp
-Main.o: ../../boost_1_60_0/boost/iterator/transform_iterator.hpp
-Main.o: ../../boost_1_60_0/boost/utility/result_of.hpp
-Main.o: ../../boost_1_60_0/boost/preprocessor/iteration/iterate.hpp
-Main.o: ../../boost_1_60_0/boost/preprocessor/slot/slot.hpp
-Main.o: ../../boost_1_60_0/boost/preprocessor/slot/detail/def.hpp
-Main.o: ../../boost_1_60_0/boost/preprocessor/repetition/enum_shifted_params.hpp
-Main.o: ../../boost_1_60_0/boost/preprocessor/facilities/intercept.hpp
-Main.o: ../../boost_1_60_0/boost/utility/declval.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/detail/case_conv.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/string_convert.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/date_generator_formatter.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/date_generator_parser.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/format_date_parser.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/strings_from_facet.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/special_values_parser.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/gregorian/parsers.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/date_parsing.hpp
 Main.o: ../../boost_1_60_0/boost/tokenizer.hpp
@@ -811,15 +768,11 @@ Main.o: ../../boost_1_60_0/boost/date_time/posix_time/time_period.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/time_iterator.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/dst_rules.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/time_formatting_streams.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/date_formatting_locales.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/date_names_put.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/posix_time/posix_time_io.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/time_facet.hpp
-Main.o: ../../boost_1_60_0/boost/algorithm/string/erase.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/posix_time/conversion.hpp
-Main.o: ../../boost_1_60_0/boost/date_time/posix_time/time_parsers.hpp
+Main.o: ../../boost_1_60_0/boost/date_time/posix_time/posix_time_legacy_io.hpp
 Main.o: ../../boost_1_60_0/boost/date_time/time_parsing.hpp
-Main.o: TextInputFormat.hpp ../../fastflow/ff/parallel_for.hpp
+Main.o: ../../boost_1_60_0/boost/date_time/posix_time/time_parsers.hpp
+Main.o: ../../boost_1_60_0/boost/date_time/posix_time/conversion.hpp
+Main.o: ReduceTask.hpp TextInputFormat.hpp ../../fastflow/ff/parallel_for.hpp
 Main.o: ../../fastflow/ff/parallel_for_internals.hpp InputFormat.hpp
 Main.o: TextSplitRecordReader.hpp /usr/include/fcntl.h
 Main.o: ../../boost_1_60_0/boost/iostreams/device/mapped_file.hpp
@@ -838,6 +791,8 @@ Main.o: ../../boost_1_60_0/boost/iostreams/detail/config/disable_warnings.hpp
 Main.o: ../../boost_1_60_0/boost/iostreams/detail/config/enable_warnings.hpp
 Main.o: ../../boost_1_60_0/boost/iostreams/detail/select_by_size.hpp
 Main.o: ../../boost_1_60_0/boost/preprocessor/iteration/local.hpp
+Main.o: ../../boost_1_60_0/boost/preprocessor/slot/slot.hpp
+Main.o: ../../boost_1_60_0/boost/preprocessor/slot/detail/def.hpp
 Main.o: ../../boost_1_60_0/boost/iostreams/detail/wrap_unwrap.hpp
 Main.o: ../../boost_1_60_0/boost/iostreams/detail/enable_if_stream.hpp
 Main.o: ../../boost_1_60_0/boost/iostreams/traits_fwd.hpp
