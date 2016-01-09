@@ -8,7 +8,7 @@
 #ifndef CONTEXT_HPP_
 #define CONTEXT_HPP_
 
-#define SIZE 4
+#define SIZE 128
 
 #include <array>
 #include "MapReduceWorker.hpp"
@@ -31,7 +31,7 @@ public:
 		cout<<s.str();*/
 		pairs->push_back({key,value});
 		if(pairs->size()>=SIZE){
-			sort(pairs->begin(),pairs->end(),[](pair<MOK,MOV> i,pair<MOK,MOV> j) { return (i.first<j.first); });
+			sort(pairs->begin(),pairs->end());
 			MapResult<MIK,MIV,MOK,MOV> *result = new MapResult<MIK,MIV,MOK,MOV>(red_worker,pairs);
 			worker->ff_send_out(result);
 			inter_values[red_worker] = new_and_reserve();
