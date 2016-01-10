@@ -10,8 +10,6 @@
 #include "MapReduceHash.hpp"
 #include "MapReduceJob.hpp"
 
-#define WORDS 1
-
 using namespace ff;
 
 template <>

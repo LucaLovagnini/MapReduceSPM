@@ -50,9 +50,9 @@ struct TaskScheduler: ff_node_t <Result<MIK,MIV,MOK,MOV>,Task<MIK,MIV,MOK,MOV>> 
 		if(completedReduce==nWorkers){
 			return (Task<MIK,MIV,MOK,MOV>*) EOF;
 		}
-		else if(completedMap==nWorkers)
+		else if(completedMap==nWorkers && completedReduce == 0)
 			for(int i=0; i<nWorkers; i++)
-				this->ff_send_out(new ReduceTask<MIK,MIV,MOK,MOV>());
+				this->ff_send_out(new ReduceTask<MIK,MIV,MOK,MOV>(nWorkers));
 		return (Task<MIK,MIV,MOK,MOV>*) GO_ON;
 	}
 

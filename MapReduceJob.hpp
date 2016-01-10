@@ -41,11 +41,13 @@ public:
 					unsigned const short nWorkers) : nWorkers(nWorkers) , myhash(new MapReduceHash<MOK>()){
 		farm = new ff_Farm<> ( [this]() {
 			mutex *all_mtx = new mutex[this->nWorkers];
-			vector<pair<MOK,MOV>> *all_inter_values = new vector<pair<MOK,MOV>>();
+			vector<pair<MOK,MOV>> **inter_values = new vector<pair<MOK,MOV>>*[this->nWorkers];
+			for(int i = 0 ; i < this->nWorkers ; i++)
+				inter_values[i] = new vector<pair<MOK,MOV>>[this->nWorkers];
 		  std::vector<std::unique_ptr<ff_node> > Workers;
 		  for(int i=0;i<this->nWorkers;++i)
 			  Workers.push_back(std::unique_ptr<ff_node_t<Task<MIK,MIV,MOK,MOV>,Result<MIK,MIV,MOK,MOV>> >(
-					  new MapReduceWorker<MIK,MIV,MOK,MOV>(this->myhash,all_inter_values,all_mtx)));
+					  new MapReduceWorker<MIK,MIV,MOK,MOV>(this->myhash,inter_values,all_mtx)));
 		  return Workers;
 		}() );
 		task_scheduler = new TaskScheduler<MIK,MIV,MOK,MOV> (farm->getlb(),file_name,nWorkers,map_func);
